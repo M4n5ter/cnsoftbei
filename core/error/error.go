@@ -4,6 +4,15 @@ import "fmt"
 
 type Code = int
 
+type DatabaseError struct {
+	Message string
+	Code    Code
+}
+
+func (e *DatabaseError) Error() string {
+	return fmt.Sprintf("database error: %s (code: %d)", e.Message, e.Code)
+}
+
 const (
 	// Database errors
 	ErrDatabaseConnection Code = 1000
@@ -54,12 +63,3 @@ const (
 	ErrExternalNotReady       Code = 5007
 	ErrExternalAlreadyExists  Code = 5008
 )
-
-type DatabaseError struct {
-	Message string
-	Code    Code
-}
-
-func (e *DatabaseError) Error() string {
-	return fmt.Sprintf("database error: %s (code: %d)", e.Message, e.Code)
-}
