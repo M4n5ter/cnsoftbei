@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/m4n5ter/cnsoftbei/common/log"
+	"github.com/m4n5ter/cnsoftbei/core/middleware"
 	"github.com/m4n5ter/cnsoftbei/core/router"
 	"github.com/m4n5ter/cnsoftbei/server/config"
 	_ "github.com/m4n5ter/cnsoftbei/server/docs"
@@ -24,6 +25,8 @@ func main() {
 	if err := r.SetTrustedProxies(conf.TrustedProxies); err != nil {
 		log.Panicf("failed to set trusted proxies: %v", err)
 	}
+
+	r.Use(middleware.Redis(conf))
 
 	// Register the router
 	router.Routes.Register(&r.RouterGroup)

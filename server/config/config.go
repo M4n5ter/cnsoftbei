@@ -34,6 +34,7 @@ type Config struct {
 	Port           int            `toml:"port"`
 	TrustedProxies []string       `toml:"trusted_proxies"`
 	Postgres       PostgresConfig `toml:"postgres"`
+	Redis          RedisConfig    `toml:"redis"`
 }
 
 type PostgresConfig struct {
@@ -43,4 +44,13 @@ type PostgresConfig struct {
 	Password string `toml:"password"`
 	Schema   string `toml:"schema"`
 	Database string `toml:"database"`
+}
+
+type RedisConfig struct {
+	Host             string `toml:"host"`
+	Password         string `toml:"password"`
+	DB               int    `toml:"db"`
+	DisableIndentity bool   `toml:"disableIndentity"` // Disable set-info on connect
+	DialTimeout      int    `toml:"dialTimeout"`
+	MaxRetries       int    `toml:"maxRetries"`
 }
