@@ -2,9 +2,8 @@ package router
 
 import "github.com/gin-gonic/gin"
 
-type router interface {
-	Register(*gin.RouterGroup)
-}
+// Routes contains all routers
+var Routes = &routes{routers: make([]router, 0)}
 
 type routes struct {
 	routers []router
@@ -17,9 +16,6 @@ func (r *routes) Register(rg *gin.RouterGroup) {
 	}
 }
 
-func init() {
-	Routes.routers = make([]router, 0)
+type router interface {
+	Register(*gin.RouterGroup)
 }
-
-// Routes contains all routers
-var Routes = new(routes)

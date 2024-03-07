@@ -27,12 +27,11 @@ run: swag
 
 # go test
 test:
-    @go test -v {{join(server, "...")}}
+    @go test -v {{join(".", "...")}}
 
 # go mod tidy
 tidy target:
-    @echo "Tidying {{target}}..."
-    @cd {{target}} && go mod tidy
+    @go mod tidy
 
 # generate swagger docs
 swag: dep-swag
@@ -40,7 +39,14 @@ swag: dep-swag
 
 # lint
 lint: dep-golangci-lint
-    golangci-lint run {{lint_dirs}}
+    @golangci-lint run
+
+# run openobserve
+oo:
+    ZO_ROOT_USER_EMAIL="root@example.com" ZO_ROOT_USER_PASSWORD="Complexpass#123" {{join(root, "openobserve")}}
+
+redis:
+    {{join(root, "dragonfly")}} --dir {{join(root, "data", "redis")}} --logtostderr --requirepass=youshallnotpass --cache_mode=true -dbnum 1 --bind localhost --port 6379  --snapshot_cron "*/30 * * * *" --maxmemory=12gb --keys_output_limit=12288
 
 # install dependencies
 dependencies: dep-swag dep-golangci-lint dep-gofumpt
@@ -73,8 +79,5 @@ main_file := join(root, "server", "main.go")
 
 # server path
 server := join(root, "server")
-
-# golangci-lint dirs
-lint_dirs := join(server, "...") + " " + join(root, "core", "...") + " " + join(root, "common", "...")
 
 #=================================== variables end =========================================#

@@ -7,3 +7,6 @@
 *.log
 *.exe
 vendor/
+data/
+dump.rdb
+config.toml

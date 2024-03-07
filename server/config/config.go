@@ -48,9 +48,10 @@ type PostgresConfig struct {
 
 type RedisConfig struct {
 	Host             string `toml:"host"`
+	Port             int    `toml:"port"`
 	Password         string `toml:"password"`
 	DB               int    `toml:"db"`
-	DisableIndentity bool   `toml:"disableIndentity"` // Disable set-info on connect
-	DialTimeout      int    `toml:"dialTimeout"`
-	MaxRetries       int    `toml:"maxRetries"`
+	DisableIndentity bool   `toml:"disable_indentity"` // Disable set-info on connect
+	DialTimeout      int    `toml:"dial_timeout"`
+	MaxRetries       int    `toml:"max_retries"`
 }

@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -12,10 +13,10 @@ import (
 
 func Redis(conf config.Config) gin.HandlerFunc {
 	client := redis.NewClient(&redis.Options{
-		Addr:             conf.Redis.Host,
+		Addr:             fmt.Sprintf("%s:%d", conf.Redis.Host, conf.Redis.Port),
 		Password:         conf.Redis.Password,
 		DB:               conf.Redis.DB,
-		DialTimeout:      time.Duration(conf.Redis.DialTimeout),
+		DialTimeout:      time.Second * time.Duration(conf.Redis.DialTimeout),
 		DisableIndentity: conf.Redis.DisableIndentity,
 		MaxRetries:       conf.Redis.MaxRetries,
 	})
