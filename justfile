@@ -1,5 +1,5 @@
 # shell
-set windows-shell := ["cmd.exe", "/c"]
+set windows-shell := ["powershell.exe", "-c"]
 
 #====================================== alias start ============================================#
 
@@ -35,7 +35,7 @@ tidy target:
 
 # generate swagger docs
 swag: dep-swag
-    @cd {{server}} && swag init -g swagger.go
+    @cd {{server}} {{and}} swag init -g swagger.go
 
 # lint
 lint: dep-golangci-lint
@@ -81,3 +81,5 @@ main_file := join(root, "server", "main.go")
 server := join(root, "server")
 
 #=================================== variables end =========================================#
+
+and := if os_family() == "windows" {";"} else {"{{and}}"}
