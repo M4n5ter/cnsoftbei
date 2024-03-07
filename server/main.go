@@ -12,11 +12,29 @@ import (
 	_ "github.com/m4n5ter/cnsoftbei/server/docs"
 )
 
-var configPath string
+var (
+	configPath string
+
+	// this will be set by the linker
+	logLevel string
+)
 
 func main() {
 	flag.StringVar(&configPath, "c", "config.toml", "path to the configuration file")
 	flag.Parse()
+
+	switch logLevel {
+	case "debug":
+		log.SetLevelDebug()
+	case "info":
+		log.SetLevelInfo()
+	case "warn":
+		log.SetLevelWarn()
+	case "error":
+		log.SetLevelError()
+	default:
+		log.SetLevelInfo()
+	}
 
 	// load configuration from file
 	conf := config.MustLoad(configPath)

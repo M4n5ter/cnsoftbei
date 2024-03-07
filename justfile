@@ -23,7 +23,7 @@ build: swag
 
 # go run
 run: swag
-    @go run -tags=swagger {{main_file}}
+    @go run -ldflags "-X 'main.logLevel=debug'" -tags=swagger {{main_file}}
 
 # go test
 test:

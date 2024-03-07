@@ -120,3 +120,6 @@ issues:
     - linters:
         - error-naming
       text: "ErrFoo"
+    - linters:
+        - unused
+      text: "logLevel"
