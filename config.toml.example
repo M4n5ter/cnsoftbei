@@ -1,15 +1,17 @@
-host = "0.0.0.0"
+# if don't set host, it will be dual stack
+#host = "127.0.0.1"
 port = 8080
 trusted_proxies = ["127.0.0.1", "192.168.1.1"]
 
 [postgres]
 host = "localhost"
+port = 5432
+user = "postgres"
+password = "youshallnotpass"
+#schema = "public"
+database = "cnsoftbei"
 
 [redis]
 host = "127.0.0.1"
 port = 6379
 password = "youshallnotpass"
-db = 0
-dial_timeout = 5
-disable_indentity = false
-max_retries = 3

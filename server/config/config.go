@@ -18,7 +18,8 @@ func Load(path string) (Config, error) {
 	if err := toml.Unmarshal(data, &c); err != nil {
 		return c, err
 	}
-	return c, nil
+
+	return c, ParseTag("toml", c)
 }
 
 func MustLoad(path string) Config {
@@ -31,24 +32,24 @@ func MustLoad(path string) Config {
 
 type Config struct {
 	Host           string         `toml:"host"`
-	Port           int            `toml:"port"`
+	Port           int            `toml:"port,required"`
 	TrustedProxies []string       `toml:"trusted_proxies"`
-	Postgres       PostgresConfig `toml:"postgres"`
-	Redis          RedisConfig    `toml:"redis"`
+	Postgres       PostgresConfig `toml:"postgres,required"`
+	Redis          RedisConfig    `toml:"redis,required"`
 }
 
 type PostgresConfig struct {
-	Host     string `toml:"host"`
-	Port     string `toml:"port"`
-	User     string `toml:"user"`
-	Password string `toml:"password"`
+	Host     string `toml:"host,required"`
+	Port     int    `toml:"port,required"`
+	User     string `toml:"user,required"`
+	Password string `toml:"password,required"`
 	Schema   string `toml:"schema"`
-	Database string `toml:"database"`
+	Database string `toml:"database,required"`
 }
 
 type RedisConfig struct {
-	Host             string `toml:"host"`
-	Port             int    `toml:"port"`
+	Host             string `toml:"host,required"`
+	Port             int    `toml:"port,required"`
 	Password         string `toml:"password"`
 	DB               int    `toml:"db"`
 	DisableIndentity bool   `toml:"disable_indentity"` // Disable set-info on connect
