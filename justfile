@@ -15,6 +15,10 @@ alias deps := dependencies
 # default target
 default: lint test
 
+# PLEASE DO THIS FIRSET!
+add-hook:
+    @echo "just" >> {{pre_commit}}
+
 # go build
 build: swag
     @echo "Building..."
@@ -46,7 +50,7 @@ oo:
     ZO_ROOT_USER_EMAIL="root@example.com" ZO_ROOT_USER_PASSWORD="Complexpass#123" {{join(root, "openobserve")}}
 
 redis:
-    {{join(root, "dragonfly")}} --dir {{join(root, "data", "redis")}} --logtostderr --requirepass=youshallnotpass --cache_mode=true -dbnum 1 --bind localhost --port 6379  --snapshot_cron "*/30 * * * *" --maxmemory=12gb --keys_output_limit=12288
+    {{join(root, "dragonfly")}} --dir {{join(root, "data", "redis")}} --logtostderr --requirepass=youshallnotpass --cache_mode=true -dbnum 1 --bind 0.0.0.0 --port 6379  --snapshot_cron "*/30 * * * *" --maxmemory=12gb --keys_output_limit=12288
 
 # install dependencies
 dependencies: dep-swag dep-golangci-lint dep-gofumpt
@@ -79,6 +83,9 @@ main_file := join(root, "server", "main.go")
 
 # server path
 server := join(root, "server")
+
+# pre-commit path
+pre_commit := join(root, ".git", "hooks", "pre-commit")
 
 #=================================== variables end =========================================#
 
