@@ -1,0 +1,24 @@
+{{ $lower_name := (toLower .Name) -}}
+{{ $camel_name := (toCamelCase .Name) -}}
+
+package router
+
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/m4n5ter/cnsoftbei/core/api"
+)
+
+func init() {
+	Routes.routers = append(Routes.routers, &{{ $lower_name }}Router{})
+}
+
+type {{ $lower_name }}Router struct{}
+
+func (r *{{ $lower_name }}Router) Register(rg *gin.RouterGroup) {
+	{{ $lower_name }}API := api.{{ $camel_name }}API{}
+
+	ug := rg.Group("/{{ $lower_name }}s")
+	{
+		ug.GET("", {{ $lower_name }}API.TODO)
+	}
+}

@@ -19,6 +19,26 @@ default: lint test
 add-hook:
     @echo "just" >> {{pre_commit}}
 
+# generate router, api, service code.
+logic targets:
+    @cd {{join(root,"cmd")}} {{and}} go run . logic {{targets}} -d {{root}}
+
+# generate router code.
+router targets:
+    @cd {{join(root,"cmd")}} {{and}} go run . router {{targets}} -d {{join(root,"core","router")}}
+
+# generate api code.
+api targets:
+    @cd {{join(root,"cmd")}} {{and}} go run . api {{targets}} -d {{join(root,"core","api")}}
+
+# generate service code.
+service targets:
+    @cd {{join(root,"cmd")}} {{and}} go run . service {{targets}} -d {{join(root,"core","service")}}
+
+# generate middleware code.
+middleware targets:
+    @cd {{join(root,"cmd")}} {{and}} go run . middleware {{targets}} -d {{join(root,"core","middleware")}}
+
 # go build
 build: swag
     @echo "Building..."
@@ -89,4 +109,4 @@ pre_commit := join(root, ".git", "hooks", "pre-commit")
 
 #=================================== variables end =========================================#
 
-and := if os_family() == "windows" {";"} else {"{{and}}"}
+and := if os_family() == "windows" {";"} else {"&&"}

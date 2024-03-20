@@ -10,3 +10,5 @@ vendor/
 data/
 dump.rdb
 config.toml
+dragonfly
+openobserve

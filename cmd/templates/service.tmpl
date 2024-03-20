@@ -1,0 +1,11 @@
+{{ $lower_name := (toLower .Name) -}}
+{{ $camel_name := (toCamelCase .Name) -}}
+
+package service
+
+type {{ $camel_name }}Service struct{}
+
+//TODO
+func (s *{{ $camel_name }}Service) TODO() error {
+	return nil
+}

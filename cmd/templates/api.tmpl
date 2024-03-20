@@ -1,0 +1,16 @@
+{{ $lower_name := (toLower .Name) -}}
+{{ $camel_name := (toCamelCase .Name) -}}
+
+package api
+
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/m4n5ter/cnsoftbei/core/service"
+)
+
+type {{ $camel_name }}API struct{}
+
+func (a *{{ $camel_name }}API) TODO(ctx *gin.Context) {
+	{{ $lower_name }}Service := service.{{ $camel_name }}Service{}
+	_ = {{ $lower_name }}Service.TODO()
+}
