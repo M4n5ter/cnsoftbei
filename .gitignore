@@ -12,3 +12,4 @@ dump.rdb
 config.toml
 dragonfly
 openobserve
+**/gen
