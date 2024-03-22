@@ -16,26 +16,62 @@ alias deps := dependencies
 default: lint test
 
 # PLEASE DO THIS FIRSET!
+[unix]
 add-hook:
-    @echo "just" >> {{pre_commit}}
+    @echo "just" > {{pre_commit}}
+    @chmod +x {{pre_commit}}
+
+[windows]
+add-hook:
+    @echo "just" > {{pre_commit}}
 
 # generate router, api, service code.
+[confirm("""
+Are you sure you want to generate router, api, service code?
+你确定要生成 router, api, service 代码吗？
+input 'Y/N' to continue or exit.
+输入 'Y/N' 继续或退出。
+""")]
 logic targets:
     @cd {{join(root,"cmd")}} {{and}} go run . logic {{targets}} -d {{root}}
 
 # generate router code.
+[confirm("""
+Are you sure you want to generate router code?
+你确定要生成 router 代码吗？
+input 'Y/N' to continue or exit.
+输入 'Y/N' 继续或退出。
+""")]
 router targets:
     @cd {{join(root,"cmd")}} {{and}} go run . router {{targets}} -d {{join(root,"core","router")}}
 
 # generate api code.
+[confirm("""
+Are you sure you want to generate api code?
+你确定要生成 api 代码吗？
+input 'Y/N' to continue or exit.
+输入 'Y/N' 继续或退出。
+""")]
 api targets:
     @cd {{join(root,"cmd")}} {{and}} go run . api {{targets}} -d {{join(root,"core","api")}}
 
 # generate service code.
+[confirm("""
+Are you sure you want to generate service code?
+你确定要生成 service 代码吗？
+input 'Y/N' to continue or exit.
+输入 'Y/N' 继续或退出。
+""")]
 service targets:
     @cd {{join(root,"cmd")}} {{and}} go run . service {{targets}} -d {{join(root,"core","service")}}
 
 # generate middleware code.
+[confirm("""
+Are you sure you want to generate middleware code?
+你确定要生成 middleware 代码吗？
+input 'Y/N' to continue or exit.
+输入 'Y/N' 继续或退出。
+""")]
 middleware targets:
     @cd {{join(root,"cmd")}} {{and}} go run . middleware {{targets}} -d {{join(root,"core","middleware")}}
 
@@ -69,12 +105,14 @@ lint: dep-golangci-lint
 oo:
     ZO_ROOT_USER_EMAIL="root@example.com" ZO_ROOT_USER_PASSWORD="Complexpass#123" {{join(root, "openobserve")}}
 
+# run redis/dragonfly
 redis:
     {{join(root, "dragonfly")}} --dir {{join(root, "data", "redis")}} --logtostderr --requirepass=youshallnotpass --cache_mode=true -dbnum 1 --bind 0.0.0.0 --port 6379  --snapshot_cron "*/30 * * * *" --maxmemory=12gb --keys_output_limit=12288
 
 # install dependencies
 dependencies: dep-swag dep-golangci-lint dep-gofumpt
 
+# a tool to help you write API docs
 dep-swag:
     @go install github.com/swaggo/swag/cmd/swag@latest
 
