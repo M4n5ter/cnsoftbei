@@ -89,16 +89,13 @@ run: swag
 test:
     @go test -v {{join(".", "...")}}
 
-# go mod tidy
-tidy target:
-    @go mod tidy
-
 # generate swagger docs
 swag: dep-swag
     @cd {{server}} {{and}} swag init -g swagger.go
 
 # lint
 lint: dep-golangci-lint
+    @go mod tidy 
     @golangci-lint run
 
 # run openobserve
