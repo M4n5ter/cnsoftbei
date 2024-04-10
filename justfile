@@ -46,7 +46,7 @@ input 'Y/N' to continue or exit.
 输入 'Y/N' 继续或退出。
 """)]
 logic targets:
-    @cd {{join(root,"cmd")}} {{and}} go run . logic {{targets}} -d {{root}}
+    @cd {{codegen}} {{and}} go run . logic {{targets}} -d {{root}}
 
 # generate router code. - 生成 router 代码
 [confirm("""
@@ -56,7 +56,7 @@ input 'Y/N' to continue or exit.
 输入 'Y/N' 继续或退出。
 """)]
 router targets:
-    @cd {{join(root,"cmd")}} {{and}} go run . router {{targets}} -d {{join(root,"core","router")}}
+    @cd {{codegen}} {{and}} go run . router {{targets}} -d {{join(root,"core","router")}}
 
 # generate api code. - 生成 api 代码
 [confirm("""
@@ -66,7 +66,7 @@ input 'Y/N' to continue or exit.
 输入 'Y/N' 继续或退出。
 """)]
 api targets:
-    @cd {{join(root,"cmd")}} {{and}} go run . api {{targets}} -d {{join(root,"core","api")}}
+    @cd {{codegen}} {{and}} go run . api {{targets}} -d {{join(root,"core","api")}}
 
 # generate service code. - 生成 service 代码
 [confirm("""
@@ -76,7 +76,7 @@ input 'Y/N' to continue or exit.
 输入 'Y/N' 继续或退出。
 """)]
 service targets:
-    @cd {{join(root,"cmd")}} {{and}} go run . service {{targets}} -d {{join(root,"core","service")}}
+    @cd {{codegen}} {{and}} go run . service {{targets}} -d {{join(root,"core","service")}}
 
 # generate middleware code. - 生成 middleware 代码
 [confirm("""
@@ -86,24 +86,24 @@ input 'Y/N' to continue or exit.
 输入 'Y/N' 继续或退出。
 """)]
 middleware targets:
-    @cd {{join(root,"cmd")}} {{and}} go run . middleware {{targets}} -d {{join(root,"core","middleware")}}
+    @cd {{codegen}} {{and}} go run . middleware {{targets}} -d {{join(root,"core","middleware")}}
 
 # go build
 [unix]
 build:
     @echo "Building..."
-    @GIN_MODE=release go build -tags=jsoniter -ldflags "-s -w" -o {{bin}} {{main_file}}
+    @GIN_MODE=release go build -tags="jsoniter no_swagger" -ldflags "-s -w" -o {{bin}} {{main_file}}
     @echo "Build done."
 
 [windows]
 build:
     @echo "Building..."
-    @$env:GIN_MODE="release" {{and}} go build -tags=jsoniter -ldflags "-s -w" -o {{bin}} {{main_file}}
+    @$env:GIN_MODE="release" {{and}} go build -tags="jsoniter no_swagger" -ldflags "-s -w" -o {{bin}} {{main_file}}
     @echo "Build done."
 
 # go run
 run: swag
-    @go run -ldflags "-X 'main.logLevel=debug'" -tags=swagger {{main_file}}
+    @go run -ldflags "-X 'main.logLevel=debug'" {{main_file}}
 
 # go test
 test:
@@ -179,10 +179,13 @@ root := justfile_directory()
 bin := join(root, project_name)
 
 # main.go path - main.go 文件路径
-main_file := join(root, "server", "main.go")
+main_file := join(root, "cmd", "server", "main.go")
 
 # server path - server 目录路径
-server := join(root, "server")
+server := join(root, "cmd", "server")
+
+# codegen path - codegen 目录路径
+codegen := join(root, "cmd", "codegen")
 
 # pre-commit path - pre-commit 文件路径
 pre_commit := join(root, ".git", "hooks", "pre-commit")

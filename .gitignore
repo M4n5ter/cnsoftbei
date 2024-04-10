@@ -1,15 +1,21 @@
+# Directories
 .idea/
 .intellij/
-*.iml
-# .vscode/
-.DS_Store
-/dist
-*.log
-*.exe
+**/gen
+dist/
 vendor/
 data/
-dump.rdb
+# .vscode/
+
+# Files
+*.iml
+.DS_Store
+*.log
+*.exe
 config.toml
+
+# Binaries
+dump.rdb
 dragonfly
 openobserve
-**/gen
+cnsoftbei

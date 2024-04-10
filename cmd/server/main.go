@@ -5,11 +5,11 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
-	"github.com/m4n5ter/cnsoftbei/common/log"
+	_ "github.com/m4n5ter/cnsoftbei/cmd/server/docs"
 	"github.com/m4n5ter/cnsoftbei/core/middleware"
 	"github.com/m4n5ter/cnsoftbei/core/router"
-	"github.com/m4n5ter/cnsoftbei/server/config"
-	_ "github.com/m4n5ter/cnsoftbei/server/docs"
+	"github.com/m4n5ter/cnsoftbei/pkg/config"
+	"github.com/m4n5ter/cnsoftbei/pkg/yalog"
 )
 
 var (
@@ -25,15 +25,15 @@ func main() {
 
 	switch logLevel {
 	case "debug":
-		log.SetLevelDebug()
+		yalog.SetLevelDebug()
 	case "info":
-		log.SetLevelInfo()
+		yalog.SetLevelInfo()
 	case "warn":
-		log.SetLevelWarn()
+		yalog.SetLevelWarn()
 	case "error":
-		log.SetLevelError()
+		yalog.SetLevelError()
 	default:
-		log.SetLevelInfo()
+		yalog.SetLevelInfo()
 	}
 
 	// load configuration from file
@@ -41,7 +41,7 @@ func main() {
 
 	r := gin.Default()
 	if err := r.SetTrustedProxies(conf.TrustedProxies); err != nil {
-		log.Panicf("failed to set trusted proxies: %v", err)
+		yalog.Fatalf("failed to set trusted proxies: %v", err)
 	}
 
 	r.Use(middleware.Redis(conf))
@@ -50,6 +50,6 @@ func main() {
 	router.Routes.Register(&r.RouterGroup)
 
 	if err := r.Run(fmt.Sprintf("%s:%v", conf.Host, conf.Port)); err != nil {
-		log.Panicf("failed to start server: %v", err)
+		yalog.Fatalf("failed to start server: %v", err)
 	}
 }

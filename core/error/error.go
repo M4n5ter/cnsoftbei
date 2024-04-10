@@ -2,8 +2,6 @@ package error
 
 import "fmt"
 
-type Code = int
-
 type DatabaseError struct {
 	Message string
 	Code    Code
@@ -12,6 +10,8 @@ type DatabaseError struct {
 func (e *DatabaseError) Error() string {
 	return fmt.Sprintf("database error: %s (code: %d)", e.Message, e.Code)
 }
+
+type Code int
 
 const (
 	// Database errors

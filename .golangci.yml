@@ -82,10 +82,10 @@ linters-settings:
       # log rule
       log:
         files:
-          - "!**/common/log/*.go"
+          - "!**/pkg/yalog/*.go"
         deny:
           - pkg: log
-            desc: use github.com/m4n5ter/cnsoftbei/common/log instead
+            desc: use github.com/m4n5ter/cnsoftbei/pkg/yalog instead
 
 issues:
   max-issues-per-linter: 0

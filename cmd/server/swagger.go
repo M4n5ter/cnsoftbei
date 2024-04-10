@@ -1,4 +1,4 @@
-//go:build swagger
+//go:build !no_swagger
 
 //	@title			Swagger Example API
 //	@version		1.0

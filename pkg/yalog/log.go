@@ -1,4 +1,4 @@
-package log
+package yalog
 
 import (
 	"context"
@@ -127,8 +127,8 @@ func SetLevelError() {
 
 // Debug logs a debug message.
 //
-//	log.Debug("hello world")
-//	log.Debug("hello world", "age", 18, "name", "foo")
+//	yalog.Debug("hello world")
+//	yalog.Debug("hello world", "age", 18, "name", "foo")
 func Debug(msg string, args ...any) {
 	r := newRecord(slog.LevelDebug, msg)
 	r.Add(args...)
@@ -137,8 +137,8 @@ func Debug(msg string, args ...any) {
 
 // Info logs an info message.
 //
-//	log.Info("hello world")
-//	log.Info("hello world", "age", 18, "name", "foo")
+//	yalog.Info("hello world")
+//	yalog.Info("hello world", "age", 18, "name", "foo")
 func Info(msg any, args ...any) {
 	r := newRecord(slog.LevelInfo, fmt.Sprintf("%v", msg))
 	r.Add(args...)
@@ -147,8 +147,10 @@ func Info(msg any, args ...any) {
 
 // Warn logs a warn message.
 //
-//	log.Warn("hello world")
-//	log.Warn("hello world", "age", 18, "name", "foo")
+// In most cases, you should use `Error` instead of `Warn` because people always ignore warnings.
+//
+//	yalog.Warn("hello world")
+//	yalog.Warn("hello world", "age", 18, "name", "foo")
 func Warn(msg any, args ...any) {
 	r := newRecord(slog.LevelWarn, fmt.Sprintf("%v", msg))
 	r.Add(args...)
@@ -157,8 +159,8 @@ func Warn(msg any, args ...any) {
 
 // Error logs an error message.
 //
-//	log.Error("hello world")
-//	log.Error("hello world", "age", 18, "name", "foo")
+//	yalog.Error("hello world")
+//	yalog.Error("hello world", "age", 18, "name", "foo")
 func Error(msg any, args ...any) {
 	r := newRecord(slog.LevelError, fmt.Sprintf("%v", msg))
 	r.Add(args...)
@@ -167,8 +169,8 @@ func Error(msg any, args ...any) {
 
 // Panic logs an error message and exit the current program with `1` error code.
 //
-//	log.Panic("hello world")
-//	log.Panic("hello world", "age", 18, "name", "foo")
+//	yalog.Panic("hello world")
+//	yalog.Panic("hello world", "age", 18, "name", "foo")
 func Panic(msg any, args ...any) {
 	r := newRecord(slog.LevelError, fmt.Sprintf("%v", msg))
 	r.Add(args...)
@@ -178,8 +180,8 @@ func Panic(msg any, args ...any) {
 
 // Debugf logs and formats a debug message. Can't take attributes.
 //
-//	log.Debugf("hello world")
-//	log.Debugf("hello %s", "world")
+//	yalog.Debugf("hello world")
+//	yalog.Debugf("hello %s", "world")
 func Debugf(format string, args ...any) {
 	r := newRecord(slog.LevelDebug, format, args...)
 	handle(nil, r, slog.LevelDebug)
@@ -187,8 +189,8 @@ func Debugf(format string, args ...any) {
 
 // Infof logs and formats an info message. Can't take attributes.
 //
-//	log.Infof("hello world")
-//	log.Infof("hello %s", "world")
+//	yalog.Infof("hello world")
+//	yalog.Infof("hello %s", "world")
 func Infof(format string, args ...any) {
 	r := newRecord(slog.LevelInfo, format, args...)
 	handle(nil, r, slog.LevelInfo)
@@ -196,8 +198,8 @@ func Infof(format string, args ...any) {
 
 // Warnf logs and formats a warn message. Can't take attributes.
 //
-//	log.Warnf("hello world")
-//	log.Warnf("hello %s", "world")
+//	yalog.Warnf("hello world")
+//	yalog.Warnf("hello %s", "world")
 func Warnf(format string, args ...any) {
 	r := newRecord(slog.LevelWarn, format, args...)
 	handle(nil, r, slog.LevelWarn)
@@ -205,18 +207,18 @@ func Warnf(format string, args ...any) {
 
 // Errorf logs and formats an error message. Can't take attributes.
 //
-//	log.Errorf("hello world")
-//	log.Errorf("hello %s", "world")
+//	yalog.Errorf("hello world")
+//	yalog.Errorf("hello %s", "world")
 func Errorf(format string, args ...any) {
 	r := newRecord(slog.LevelError, format, args...)
 	handle(nil, r, slog.LevelError)
 }
 
-// Panicf logs and formats an error message and exit the current program with `1` error code. Can't take attributes.
+// Fatalf logs and formats an error message and exit the current program with `1` error code. Can't take attributes.
 //
-//	log.Panicf("hello world")
-//	log.Panicf("hello %s", "world")
-func Panicf(format string, args ...any) {
+//	yalog.Panicf("hello world")
+//	yalog.Panicf("hello %s", "world")
+func Fatalf(format string, args ...any) {
 	r := newRecord(slog.LevelError, format, args...)
 	handle(nil, r, slog.LevelError)
 	os.Exit(1)

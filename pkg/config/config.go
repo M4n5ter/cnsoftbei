@@ -3,7 +3,7 @@ package config
 import (
 	"os"
 
-	"github.com/m4n5ter/cnsoftbei/common/log"
+	"github.com/m4n5ter/cnsoftbei/pkg/yalog"
 	"github.com/pelletier/go-toml/v2"
 )
 
@@ -25,7 +25,7 @@ func Load(path string) (Config, error) {
 func MustLoad(path string) Config {
 	c, err := Load(path)
 	if err != nil {
-		log.Panicf("failed to load configuration: %v", err)
+		yalog.Fatalf("failed to load configuration: %v", err)
 	}
 	return c
 }

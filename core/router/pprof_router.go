@@ -1,3 +1,5 @@
+//go:build !no_pprof
+
 package router
 
 import (
